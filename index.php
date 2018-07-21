@@ -79,21 +79,14 @@ include("html/count.php");
 										"recipe"=>"ಪಾಕಶಾಲೆ"
 										);
 							include("html/connect.php");
-
-							$db = mysql_connect("localhost",$user,$password) or die("Not connected to database");
-							//mysql_set_charset('utf8',$db);							
-							$rs = mysql_select_db($database,$db) or die("No Database");
-							mysql_query("SET NAMES 'utf8'");
-							mysql_query("SET CHARACTER SET utf8");
-							
 							$query = "select * from latest_articles where display=1 order by artid desc";
-							$result = mysql_query($query);
-							$num_rows = mysql_num_rows($result);
+							$result = $mysqli->query($query);
+							$num_rows = $result->num_rows;
 							if($num_rows)
 							{
 								for($i=1;$i<=$num_rows;$i++)
 								{
-									$row=mysql_fetch_assoc($result);
+									$row=$result->fetch_assoc();
 									$title=$row['title'];
 									$artid=$row['artid'];
 									$author=$row['author'];
@@ -101,13 +94,13 @@ include("html/count.php");
 									$content=$row['content'];
 
 									$queryg = "select * from latest_authors where author='$author'";
-									$resultg = mysql_query($queryg);
-									$num_rowsg = mysql_num_rows($resultg);
+									$resultg = $mysqli->query($queryg);
+									$num_rowsg = $resultg->num_rows;
 									if($num_rowsg)
 									{
 										for($ig=1;$ig<=$num_rowsg;$ig++)
 										{
-											$rowg=mysql_fetch_assoc($resultg);
+											$rowg=$resultg->fetch_assoc();
 											$aid=$rowg['aid'];
 											$author=$rowg['author'];
 										}
@@ -118,24 +111,24 @@ include("html/count.php");
 							else
 							{
 								$query11 = "select distinct date from latest_articles order by date desc limit 1";
-								$result11 = mysql_query($query11);
-								$num_rows11 = mysql_num_rows($result11);
+								$result11 = $mysqli->query($query11);
+								$num_rows11 = $result11->num_rows;
 								if($num_rows11)
 								{
 									for($i11=1;$i11<=$num_rows11;$i11++)
 									{
-										$row11=mysql_fetch_assoc($result11);
+										$row11=$result11->fetch_assoc();
 										$date11=$row11['date'];
 									}
 								}
 								$query = "select * from latest_articles where date='$date11' order by date desc";
-								$result = mysql_query($query);
-								$num_rows = mysql_num_rows($result);
+								$result = $mysqli->query($query);
+								$num_rows = $result->num_rows;
 								if($num_rows)
 								{
 									for($i=1;$i<=$num_rows;$i++)
 									{
-										$row=mysql_fetch_assoc($result);
+										$row = $result->fetch_assoc();
 										$title=$row['title'];
 										$artid=$row['artid'];
 										$author=$row['author'];
@@ -171,19 +164,18 @@ include("html/count.php");
 				<div class="classify">
 					<div class="title">ಅಮೆರಿಕನ್ನಡ</div>
 					<?php
-							$db = mysql_connect("localhost",$user,$password) or die("Not connected to database");
-							$rs = mysql_select_db($database,$db) or die("No Database");
-							
 							$query11 = "select distinct category from latest_articles";
-							$result11 = mysql_query($query11);
-							$num_rows11 = mysql_num_rows($result11);
+							$result11 = $mysqli->query($query11);
+							$num_rows11 = $result11->num_rows;
+							
 							if($num_rows11)
 							{
 								for($i11=1;$i11<=$num_rows11;$i11++)
 								{
-									$row11=mysql_fetch_assoc($result11);
+									$row11=$result11->fetch_assoc();
 									$category=$row11['category'];
-									if($category!="hombelaku")
+									
+									if($category != "hombelaku" && $category != "")
 									{
 										echo("<div class=\"text\"><a href=\"html/categories.php?category=$category\">$cat[$category]</a></div>");
 									}
@@ -195,17 +187,14 @@ include("html/count.php");
 				<div class="classify">
 					<div class="title">ಹೊಂಬೆಳಕು</div>
 					<?php
-							$db = mysql_connect("localhost",$user,$password) or die("Not connected to database");
-							$rs = mysql_select_db($database,$db) or die("No Database");
-							
 							$query11 = "select * from latest_articles where category=\"hombelaku\" order by artid desc limit 10";
-							$result11 = mysql_query($query11);
-							$num_rows11 = mysql_num_rows($result11);
+							$result11 = $mysqli->query($query11);
+							$num_rows11 = $result11->num_rows;
 							if($num_rows11)
 							{
 								for($i11=1;$i11<=$num_rows11;$i11++)
 								{
-									$row11=mysql_fetch_assoc($result11);
+									$row11 = $result11->fetch_assoc();
 									$few=$row11['few'];
 									$artid=$row11['artid'];
 									echo("<div class=\"text\"><span class=\"authorspan\"><a href=\"html/latest_articles.php?artid=$artid\">$few...</a></span></div>");
