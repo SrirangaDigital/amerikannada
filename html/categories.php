@@ -64,19 +64,16 @@
 				$category = $_GET['category'];
 				echo("<span class=\"title\">$cat[$category]</span>");
 				include("connect.php");
-
-				$db = mysql_connect("localhost",$user,$password) or die("Not connected to database");
-				$rs = mysql_select_db($database,$db) or die("No Database");
 							
 				$query11 = "select * from latest_articles where category='$category' order by artid desc";
-				$result11 = mysql_query($query11);
-				$num_rows11 = mysql_num_rows($result11);
+				$result11 = $mysqli->query($query11);
+				$num_rows11 = $result11->num_rows;
 				if($num_rows11)
 				{
 					echo("<ul class=\"center\">");
 					for($i11=1;$i11<=$num_rows11;$i11++)
 					{
-						$row11=mysql_fetch_assoc($result11);
+						$row11=$result11->fetch_assoc();
 						$title=$row11['title'];
 						$author=$row11['author'];
 						$artid=$row11['artid'];
@@ -85,13 +82,13 @@
 						$disdate = "$c"."-"."$b"."-"."$a";
 
 						$queryg = "select * from latest_authors where author='$author'";
-						$resultg = mysql_query($queryg);
-						$num_rowsg = mysql_num_rows($resultg);
+						$resultg = $mysqli->query($queryg);
+						$num_rowsg = $resultg->num_rows;
 						if($num_rowsg)
 						{
 							for($ig=1;$ig<=$num_rowsg;$ig++)
 							{
-								$rowg=mysql_fetch_assoc($resultg);
+								$rowg=$resultg->fetch_assoc();
 								$aid=$rowg['aid'];
 								$author=$rowg['author'];
 							}

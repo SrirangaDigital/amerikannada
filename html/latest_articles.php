@@ -51,28 +51,25 @@ $artid = $_GET['artid'];
 
 include("connect.php");
 
-$db = mysql_connect("localhost",$user,$password) or die("Not connected to database");
-$rs = mysql_select_db($database,$db) or die("No Database");
-
 $query = "select content,author from latest_articles where artid=$artid";
-$result = mysql_query($query);
-$num_rows = mysql_num_rows($result);
+$result = $mysqli->query($query);
+$num_rows = $result->num_rows;
 if($num_rows)
 {
 	for($i=1;$i<=$num_rows;$i++)
 	{
-		$row=mysql_fetch_assoc($result);
+		$row=$result->fetch_assoc();
 		$content=$row['content'];
 		$author=$row['author'];
 		
 		$queryg = "select * from latest_authors where author='$author'";
-		$resultg = mysql_query($queryg);
-		$num_rowsg = mysql_num_rows($resultg);
+		$resultg = $mysqli->query($queryg);
+		$num_rowsg = $resultg->num_rows;
 		if($num_rowsg)
 		{
 			for($ig=1;$ig<=$num_rowsg;$ig++)
 			{
-				$rowg=mysql_fetch_assoc($resultg);
+				$rowg=$resultg->fetch_assoc();
 				$aid=$rowg['aid'];
 			}
 		}
@@ -82,7 +79,7 @@ if($num_rows)
 		
 	}
 }
-include("insert_comments.php");
+//~ include("insert_comments.php");
 
 ?>
 		</div>

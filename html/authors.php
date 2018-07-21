@@ -64,22 +64,18 @@
 
 
 include("connect.php");
-
-$db = mysql_connect("localhost",$user,$password) or die("Not connected to database");
-$rs = mysql_select_db($database,$db) or die("No Database");
-
 			
 $query1 = "select * from author order by authorname";
-$result1 = mysql_query($query1);
-$num_rows1 = mysql_num_rows($result1);
+$result1 = $mysqli->query($query1);
+$num_rows1 = $result1->num_rows;
 		
 if($num_rows1)
 {
 	for($i1=1;$i1<=$num_rows1;$i1++)
 	{	
-		$row1=mysql_fetch_assoc($result1);
-		$authorname=$row1[authorname];
-		$authid=$row1[authid];
+		$row1=$result1->fetch_assoc();
+		$authorname=$row1['authorname'];
+		$authid=$row1['authid'];
 		echo "<li>&nbsp;<span class=\"authorspan\"><a href=\"auth.php?authid=$authid\">$authorname</a></span></li>";
 	}
 }

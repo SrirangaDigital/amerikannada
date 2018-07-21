@@ -65,15 +65,15 @@ $issue = $_GET['issue'];
 //displaying header information					
 
 $query1 = "select descname from article where issue='$issue'";
-$result1 = mysql_query($query1);
-$num_rows1 = mysql_num_rows($result1);					
+$result1 = $mysqli->query($query1);
+$num_rows1 = $result1->num_rows;					
 
 
 
 if($num_rows1)
 {
-		$row1=mysql_fetch_assoc($result1);
-		$descname=$row1[descname];
+		$row1=$result1->fetch_assoc();
+		$descname=$row1['descname'];
 		
 		echo "<div class=\"archive_title\">\n";					
 		echo "<span>". (int)$issue . "ನೇ ಸಂಚಿಕೆಯ ಲೇಖನಗಳು ($descname) </span>\n";
@@ -88,29 +88,29 @@ if($num_rows1)
 /////displaying title and author information
 
 $query2 = "select * from article where issue='$issue' order by page";
-$result2 = mysql_query($query2);
-$num_rows2 = mysql_num_rows($result2);
+$result2 = $mysqli->query($query2);
+$num_rows2 = $result2->num_rows;
 		
 if($num_rows2)
 {
 	for($i1=1;$i1<=$num_rows2;$i1++)
 	{	
-		$row2=mysql_fetch_assoc($result2);
+		$row2=$result2->fetch_assoc();
 		
-		$title=$row2[title];
-		$feature=$row2[feature];
-		$authid=$row2[authid];
-		$page=$row2[page];
+		$title=$row2['title'];
+		$feature=$row2['feature'];
+		$authid=$row2['authid'];
+		$page=$row2['page'];
 						
 		echo "<li><span class=\"titlespan\"><a href=\"../Volumes/$issue/index.djvu?djvuopts&page=$page&zoom=page\" target=\"_blank\">" . $title . "</a></span>";
 				
 		if($authid != 0)
 		{
 			$query3 = "select * from author where authid=$authid";
-			$result3 = mysql_query($query3);
-			$row3=mysql_fetch_assoc($result3);
+			$result3 = $mysqli->query($query3);
+			$row3=$result3->fetch_assoc();
 						
-			$authorname=$row3[authorname];
+			$authorname=$row3['authorname'];
 			echo "&nbsp;&nbsp;<span class=\"authorspan\"><a href=\"auth.php?authid=$authid\">$authorname</a></span>";
 
 		}

@@ -4,9 +4,6 @@
 
 include("connect.php");
 
-$db = mysql_connect("localhost",$user,$password) or die("Not connected to database");
-$rs = mysql_select_db($database,$db) or die("No Database");
-
 $com_name=$_POST['com_name'];
 $com_email=$_POST['com_email'];
 $com_text=$_POST['com_text'];
@@ -16,15 +13,15 @@ if (($com_name != "") && ($com_email != "") && ($com_text != ""))
 {
 	if(preg_match('/^[a-z0-9\-_\.]+@([a-z0-9][a-z0-9\-]*\.)+[a-z]+$/', $com_email))
 	{
-		$repeat = mysql_query("select * from comments where name='$com_name' and email='$com_email' and text='$com_text'");
-		$num_rows1 = mysql_num_rows($repeat);
+		$repeat = $mysqli->query("select * from comments where name='$com_name' and email='$com_email' and text='$com_text'");
+		$num_rows1 = $repeat->num_rows;
 	
 		if($num_rows1 == 0)
 		{	
 			$my_t=getdate();
 			$dt = "$my_t[weekday], $my_t[month] $my_t[mday], $my_t[year]";
 /*
-			$result = mysql_query("insert into comments values('$artid', '$com_name', '$com_email', '$com_text', '$dt', '')");
+			$result = $mysqli->query("insert into comments values('$artid', '$com_name', '$com_email', '$com_text', '$dt', '')");
 */
 		}
 		$com_name = "";
@@ -38,8 +35,8 @@ if (($com_name != "") && ($com_email != "") && ($com_text != ""))
 }
 
 $query = "select * from comments where num='$artid' order by cid";
-$result = mysql_query($query);
-$num_rows = mysql_num_rows($result);
+$result = $mysqli->query($query);
+$num_rows = $result->num_rows;
 
 if($num_rows)
 {
@@ -48,7 +45,7 @@ if($num_rows)
 					
 	for($i=1;$i<=$num_rows;$i++)
 	{
-		$row=mysql_fetch_assoc($result);
+		$row=$result->fetch_assoc();
 		$name=$row[name];
 		$text=$row[text];
 		$dt=$row[dt];

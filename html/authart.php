@@ -62,19 +62,15 @@
 							);
 				$aid = $_GET['aid'];
 				include("connect.php");
-
-				$db = mysql_connect("localhost",$user,$password) or die("Not connected to database");
-				$rs = mysql_select_db($database,$db) or die("No Database");
-				
-				
+			
 				$queryg = "select * from latest_authors where aid='$aid'";
-				$resultg = mysql_query($queryg);
-				$num_rowsg = mysql_num_rows($resultg);
+				$resultg = $mysqli->query($queryg);
+				$num_rowsg = $resultg->num_rows;
 				if($num_rowsg)
 				{
 					for($ig=1;$ig<=$num_rowsg;$ig++)
 					{
-						$rowg=mysql_fetch_assoc($resultg);
+						$rowg=$resultg->fetch_assoc();
 						$aid=$rowg['aid'];
 						$author=$rowg['author'];
 					}
@@ -83,13 +79,13 @@
 				echo("<span class=\"title\">$author</span>");
 				
 				$query7 = "select * from latest_authors where author='$author'";
-				$result7 = mysql_query($query7);
-				$num_rows7 = mysql_num_rows($result7);
+				$result7 = $mysqli->query($query7);
+				$num_rows7 = $result7->num_rows;
 				if($num_rows7)
 				{
 					for($i7=1;$i7<=$num_rows7;$i7++)
 					{
-						$row7=mysql_fetch_assoc($result7);
+						$row7=$result7->fetch_assoc();
 						$about=$row7['about'];
 						$imagepath=$row7['imagepath'];
 						echo("<div class=\"authorbox\">");
@@ -101,25 +97,25 @@
 				
 				
 				$query11 = "select distinct category from latest_articles where author='$author'";
-				$result11 = mysql_query($query11);
-				$num_rows11 = mysql_num_rows($result11);
+				$result11 = $mysqli->query($query11);
+				$num_rows11 = $result11->num_rows;
 				if($num_rows11)
 				{
 					for($i11=1;$i11<=$num_rows11;$i11++)
 					{
-						$row11=mysql_fetch_assoc($result11);
+						$row11=$result11->fetch_assoc();
 						$category=$row11['category'];
 						
 						$query111 = "select * from latest_articles where author='$author' and category='$category' order by artid desc";
-						$result111 = mysql_query($query111);
-						$num_rows111 = mysql_num_rows($result111);
+						$result111 = $mysqli->query($query111);
+						$num_rows111 = $result111->num_rows;
 						if($num_rows111)
 						{
 							echo("<ul class=\"center\">");
 							echo("<span class=\"titletag\">$cat[$category]</span>");
 							for($i111=1;$i111<=$num_rows111;$i111++)
 							{
-								$row111=mysql_fetch_assoc($result111);
+								$row111=$result111->fetch_assoc();
 								$title=$row111['title'];
 								$date=$row111['date'];
 								list($a,$b,$c) = explode("-",$date);
@@ -134,14 +130,14 @@
 
 /*
 				$query11 = "select * from latest_articles where author like '%$authorname%' order by artid desc";
-				$result11 = mysql_query($query11);
-				$num_rows11 = mysql_num_rows($result11);
+				$result11 = $mysqli->query($query11);
+				$num_rows11 = $result11->num_rows;
 				if($num_rows11)
 				{
 					echo("<ul class=\"center\">");
 					for($i11=1;$i11<=$num_rows11;$i11++)
 					{
-						$row11=mysql_fetch_assoc($result11);
+						$row11=$result11->fetch_assoc();
 						$title=$row11['title'];
 						$date=$row11['date'];
 						$category = $row11['category'];

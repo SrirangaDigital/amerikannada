@@ -60,37 +60,34 @@
 
 include("connect.php");
 
-$db = mysql_connect("localhost",$user,$password) or die("Not connected to database");
-$rs = mysql_select_db($database,$db) or die("No Database");
-
 $authid = $_GET['authid'];
 
 if($authid != 0)
 {
 	$query1 = "select * from author where authid=$authid";
-	$result1 = mysql_query($query1);
-	$row1=mysql_fetch_assoc($result1);
+	$result1 = $mysqli->query($query1);
+	$row1=$result1->fetch_assoc();
 					
-	$authorname=$row1[authorname];
+	$authorname=$row1['authorname'];
 	echo "<div class=\"archive_title\">$authorname ಅವರ ಲೇಖನಗಳು</div>";
 	echo "<div class=\"archive\">\n<ul>\n";
 }
 	
 $query2 = "select * from article where authid='$authid' order by issue, page";
-$result2 = mysql_query($query2);
-$num_rows2 = mysql_num_rows($result2);
+$result2 = $mysqli->query($query2);
+$num_rows2 = $result2->num_rows;
 		
 if($num_rows2)
 {
 	for($i1=1;$i1<=$num_rows2;$i1++)
 	{	
-		$row2=mysql_fetch_assoc($result2);
-		$title=$row2[title];
-		$feature=$row2[feature];
-		$descname=$row2[descname];
-		$authid=$row2[authid];
-		$issue=$row2[issue];
-		$page=$row2[page];
+		$row2=$result2->fetch_assoc();
+		$title=$row2['title'];
+		$feature=$row2['feature'];
+		$descname=$row2['descname'];
+		$authid=$row2['authid'];
+		$issue=$row2['issue'];
+		$page=$row2['page'];
 						
 		//echo "</li>";
 		echo "<li><span class=\"titlespan\"><a href=\"../Volumes/$issue/index.djvu?djvuopts&page=$page&zoom=page\" target=\"_blank\">$title</a></span>&nbsp;<span class=\"yearspan\"><a href=\"toc.php?issue=$issue\">($descname)</a></span></li>";
