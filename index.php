@@ -31,6 +31,7 @@ session_start();
 			<div id="nav"><a class="active" href="index.php">ಮುಖಪುಟ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></div>
 			<div id="nav"><a href="html/hari.html">ಹರಿಹರೇಶ್ವರ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></div>
 			<div id="nav"><a href="html/books.html">ಪುಸ್ತಕಗಳು&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></div>
+			<div id="nav"><a href="ebooks">ಇ-ಪುಸ್ತಕಗಳು&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></div>
 			<div id="nav"><a href="html/gallery.html">ಗ್ಯಾಲರಿ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></div>
 			<div class="archive_widget">
 				<div class="title">ಅಮೆರಿಕನ್ನಡ</div>
