@@ -8,7 +8,6 @@ if(isset($_SESSION['visitor_number']))
 }
 else
 {	
-	$mysqli->set_charset('utf8');
 	$update_query= "update counter set count=count+1";
 	$mysqli->query($update_query);
 	
