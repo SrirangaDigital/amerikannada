@@ -1,5 +1,5 @@
 <?php
 
-@header('Location: https://play.google.com/store/books/author?id=Nagalakshmi+Harihareshwara');
+@header('Location: https://play.google.com/store/search?q=harihareshwara&c=books');
 
 ?>
